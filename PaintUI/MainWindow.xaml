@@ -1,0 +1,44 @@
+﻿<Fluent:RibbonWindow x:Class="PaintUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"   
+        xmlns:local="clr-namespace:PaintUI"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800"
+        xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"    
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Loaded="RibbonWindow_Loaded"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="Open Sans"             
+        >
+    <DockPanel LastChildFill="True">
+        <StackPanel DockPanel.Dock="Top">
+            <Fluent:Ribbon>
+                <Fluent:RibbonTabItem Header="General">
+                    <Fluent:RibbonGroupBox Header="Starter" Height="150">
+                        <Fluent:Button Name="ButtonSave" Click="ButtonSave_Click" Header="Save" Foreground="Indigo" LargeIcon="{materialDesign:PackIcon Size=30, Kind=ContentSave}" Margin="10,10,0,10"/>
+                        <Fluent:Button Name="ButtonImport" Header="Import" Foreground="Indigo" LargeIcon="{materialDesign:PackIcon Size=30, Kind=FileUpload}" Margin="10,10,0,10"/>
+                        <Fluent:Button Name="ButtonPreview" Header="Preview" Foreground="Indigo" LargeIcon="{materialDesign:PackIcon Size=30, Kind=FileFind}" Margin="10,10,0,10"/>
+                        <Fluent:Button Name="ButtonFinish" Header="Finish" Foreground="Indigo" LargeIcon="{materialDesign:PackIcon Size=30, Kind=FlagCheckered}" Margin="10,10,0,10"/>
+                    </Fluent:RibbonGroupBox>
+                    <Fluent:RibbonGroupBox x:Name="GrObjGroupBox" Header="Shape" Height="150"/>
+                </Fluent:RibbonTabItem>
+            </Fluent:Ribbon>
+        </StackPanel>
+        <Grid>
+            <Canvas x:Name="canvas" Background="White">
+
+            </Canvas>
+            <Border Background="Transparent" MouseDown="canvas_MouseDown" 
+                MouseMove="canvas_MouseMove" 
+                MouseUp="canvas_MouseUp">
+            </Border>
+        </Grid>
+    </DockPanel>
+</Fluent:RibbonWindow>
