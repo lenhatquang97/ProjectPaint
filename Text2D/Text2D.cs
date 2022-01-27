@@ -1,24 +1,24 @@
+using Contract;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Shapes;
-using Contract;
-using MaterialDesignThemes.Wpf;
 
-namespace Rectangle2D
+namespace Text2D
 {
     [Serializable]
-    public class Rectangle2D: IShape
+    public class Text2D: IShape
     {
         private Point2D _leftTop = new Point2D();
         private Point2D _rightBottom = new Point2D();
 
-        public string Name => "Rectangle";
+        public string Name => "Text";
 
-        public PackIconKind IconKind => PackIconKind.RectangleOutline;
+        public PackIconKind IconKind => PackIconKind.FormatText;
 
         public Settings Settings { get; set; }
+
 
         public UIElement Draw()
         {
@@ -28,23 +28,19 @@ namespace Rectangle2D
             }
             var x = Math.Min(_rightBottom.X, _leftTop.X);
             var y = Math.Min(_rightBottom.Y, _leftTop.Y);
-            var width = Math.Max(_rightBottom.X, _leftTop.X) - x;
-            var height = Math.Max(_rightBottom.Y, _leftTop.Y) - y;
 
-            var rect = new Rectangle()
+            var res = new TextBlock()
             {
-                Width = width,
-                Height = height,
-                Stroke = new SolidColorBrush(Color.FromArgb(Settings.Stroke.A, Settings.Stroke.R, Settings.Stroke.G, Settings.Stroke.B)),
-                StrokeThickness = Settings.StrokeThickness,
-                Fill = new SolidColorBrush(Color.FromArgb(Settings.Fill.A, Settings.Fill.R, Settings.Fill.G, Settings.Fill.B)),
+                Text = Settings.Text,
+                Foreground = new SolidColorBrush(Color.FromArgb(Settings.Foreground.A, Settings.Foreground.R, Settings.Foreground.G, Settings.Foreground.B)),
+                FontSize = Settings.FontSize,
                 RenderTransform = new RotateTransform(Settings.Angle)
             };
 
-            Canvas.SetLeft(rect, x);
-            Canvas.SetTop(rect, y);
+            Canvas.SetLeft(res, x);
+            Canvas.SetTop(res, y);
 
-            return rect;
+            return res;
         }
 
         public void HandleStart(double x, double y)
@@ -60,7 +56,7 @@ namespace Rectangle2D
 
         public IShape Clone()
         {
-            return new Rectangle2D();
+            return new Text2D();
         }
 
     }

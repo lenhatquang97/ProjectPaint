@@ -6,6 +6,7 @@ using System.Windows.Shapes;
 
 namespace Contract
 {
+    [Serializable]
     public class Point2D : IShape
     {
         public double X { get; set; }
@@ -13,6 +14,8 @@ namespace Contract
         public string Name => "Point";
 
         public PackIconKind IconKind => PackIconKind.StarFourPoints;
+
+        public Settings Settings { get; set; }
 
         public void HandleStart(double x, double y)
         {
@@ -26,14 +29,19 @@ namespace Contract
         }
         public UIElement Draw()
         {
+            if(Settings == null)
+            {
+                Settings = new Settings();
+            }
             Line l = new Line()
             {
                 X1 = X,
                 Y1 = Y,
                 X2 = X,
                 Y2 = Y,
-                StrokeThickness = 1,
-                Stroke = new SolidColorBrush(Colors.Red),
+                Stroke = new SolidColorBrush(Color.FromArgb(Settings.Stroke.A, Settings.Stroke.R, Settings.Stroke.G, Settings.Stroke.B)),
+                StrokeThickness = Settings.StrokeThickness,
+                Fill = new SolidColorBrush(Color.FromArgb(Settings.Fill.A, Settings.Fill.R, Settings.Fill.G, Settings.Fill.B))
             };
 
             return l;

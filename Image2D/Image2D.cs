@@ -1,24 +1,30 @@
 using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Shapes;
+using System.Windows.Media.Imaging;
 using Contract;
 using MaterialDesignThemes.Wpf;
 
-namespace Rectangle2D
+namespace Image2D
 {
     [Serializable]
-    public class Rectangle2D: IShape
+    public class Image2D : IShape
     {
         private Point2D _leftTop = new Point2D();
         private Point2D _rightBottom = new Point2D();
 
-        public string Name => "Rectangle";
-
-        public PackIconKind IconKind => PackIconKind.RectangleOutline;
-
         public Settings Settings { get; set; }
+
+        public string Name => "Image";
+
+        public PackIconKind IconKind => PackIconKind.Image;
+
+        public IShape Clone()
+        {
+            return new Image2D();
+        }
 
         public UIElement Draw()
         {
@@ -30,21 +36,21 @@ namespace Rectangle2D
             var y = Math.Min(_rightBottom.Y, _leftTop.Y);
             var width = Math.Max(_rightBottom.X, _leftTop.X) - x;
             var height = Math.Max(_rightBottom.Y, _leftTop.Y) - y;
-
-            var rect = new Rectangle()
+            Image img = new Image()
             {
-                Width = width,
                 Height = height,
-                Stroke = new SolidColorBrush(Color.FromArgb(Settings.Stroke.A, Settings.Stroke.R, Settings.Stroke.G, Settings.Stroke.B)),
-                StrokeThickness = Settings.StrokeThickness,
-                Fill = new SolidColorBrush(Color.FromArgb(Settings.Fill.A, Settings.Fill.R, Settings.Fill.G, Settings.Fill.B)),
+                Width = width,
                 RenderTransform = new RotateTransform(Settings.Angle)
             };
-
-            Canvas.SetLeft(rect, x);
-            Canvas.SetTop(rect, y);
-
-            return rect;
+            BitmapImage bi = new BitmapImage();
+            bi.BeginInit();
+            bi.UriSource = new Uri(Settings.ImagePath);
+            Debug.WriteLine(Settings.ImagePath);
+            bi.EndInit();
+            img.Source = bi;
+            Canvas.SetLeft(img, x);
+            Canvas.SetTop(img, y);
+            return img;
         }
 
         public void HandleStart(double x, double y)
@@ -57,11 +63,5 @@ namespace Rectangle2D
             _rightBottom = new Point2D() { X = x, Y = y };
 
         }
-
-        public IShape Clone()
-        {
-            return new Rectangle2D();
-        }
-
     }
 }

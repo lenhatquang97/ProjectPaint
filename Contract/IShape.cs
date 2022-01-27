@@ -5,13 +5,14 @@ namespace Contract
 {
     public interface IShape
     {
-        string Name { get; }
-        PackIconKind IconKind { get; }
-        void HandleStart(double x, double y);
-        void HandleEnd(double x, double y);
+        public Settings Settings { get; set; }
+        public string Name { get; }
+        public PackIconKind IconKind { get; }
+        public void HandleStart(double x, double y);
+        public void HandleEnd(double x, double y);
 
-        UIElement Draw();
-        IShape Clone();
+        public UIElement Draw();
+        public IShape Clone();
         
     }
 }
